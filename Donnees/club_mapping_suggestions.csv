@@ -1,0 +1,300 @@
+club_missing;suggested_match;similarity;countries_considered
+A. Klagenfurt;Klagenfurt;95.0;AUT
+A. Lustenau;Lustenau;95.0;AUT
+AC Oulu;Inter Turku;41.53846153846154;FIN
+AFC Eskilstuna;Eskilstuna;95.0;SWE
+AFC Wimbledon;Wimbledon;95.0;ENG
+Academica Clinceni;Clinceni;90.0;ROM
+Accrington;Luton;67.5;ENG
+Airdrie;Aberdeen;53.333333333333336;SCO
+Airdrie Utd;St Mirren;57.0;SCO
+Ajaccio GFCO;Ajaccio;90.0;FRA
+Ajax ;Ajax;95.0;NED
+Akhmat Grozny;Terek Grozny;64.0;RUS
+Akron Togliatti;Akron Togliatti;100.0;RUS
+Albion Rvs;Ross County;45.23809523809524;SCO
+Aldershot;Bolton;45.0;ENG
+Alloa;Motherwell;51.42857142857142;SCO
+Amkar;Amkar Perm;90.0;RUS
+Andorra;Andorra CF;95.0;ESP
+Ankaragucu;Ankaraguecue;90.9090909090909;TUR
+Annan Athletic;Celtic;72.0;SCO
+Arbroath;Queen of Sth;38.57142857142858;SCO
+Arka Gdynia;Arka;90.0;POL
+Arsenal Tula;Tula;90.0;RUS
+Athens Kallithea;Kalithea;78.75;GRE
+Atvidabergs;Atvidaberg;95.23809523809523;SWE
+Austria Vienna;Austria Wien;84.61538461538461;AUT
+Ayr;Aberdeen;45.0;SCO
+BW Linz;BW Linz;100.0;AUT
+Baltika;Baltika;100.0;RUS
+Barnet;Barnsley;71.42857142857143;ENG
+Barrow;West Brom;57.0;ENG
+Berwick;Partick;57.14285714285714;SCO
+Blackpool;Blackpool;100.0;ENG
+Bodo/Glimt;Bodoe Glimt;85.71428571428572;NOR
+Bonnyrigg Rose;Ross County;53.2;SCO
+Boston;Bolton;83.33333333333334;ENG
+Bournemouth;Bournemouth;100.0;ENG
+Brage;Atvidaberg;51.42857142857142;SWE
+Brechin;Gretna;46.15384615384615;SCO
+Brentford;Brentford;100.0;ENG
+Brighton;Brighton;100.0;ENG
+Bristol City;Bristol City;100.0;ENG
+Bristol Rvs;Bristol City;73.88888888888889;ENG
+Bromley;Burnley;71.42857142857143;ENG
+Burton;Burton;100.0;ENG
+Bury;Burnley;77.14285714285715;ENG
+CS Turnu Severin;Turnu Severin;95.0;ROM
+CSKA Moscow;CSKA Moskva;72.72727272727273;RUS
+Calarasi;Dunarea Calarasi;90.0;ROM
+Cambridge;Cardiff;50.0;ENG
+Cardiff;Cardiff;100.0;ENG
+Carlisle;Barnsley;62.5;ENG
+Ceahlaul;Farul;67.5;ROM
+Cheltenham;Chelsea;70.58823529411764;ENG
+Chester;Colchester;82.35294117647058;ENG
+Chesterfield;Chelsea;69.23076923076923;ENG
+Chindia Targoviste;Chindia Targoviste;100.0;ROM
+Clyde;Aberdeen;40.0;SCO
+Clydebank;Celtic;45.0;SCO
+Colchester;Colchester;100.0;ENG
+Concordia;Chindia Targoviste;56.25;ROM
+Corona Brasov;Corona Brasov;100.0;ROM
+Cove Rangers;Rangers;90.0;SCO
+Cowdenbeath;Hearts;54.0;SCO
+Crawley Town;Crewe;60.00000000000001;ENG
+Csikszereda M. Ciuc;Iasi;51.42857142857142;ROM
+Daco-Getica Bucuresti;Rocar Bucuresti;72.22222222222221;ROM
+Dag and Red;Reading;54.0;ENG
+Darlington;Luton;67.5;ENG
+Din. Bucuresti;Dinamo Bucuresti;86.66666666666667;ROM
+Doncaster;Doncaster;100.0;ENG
+Dumbarton;Gretna;54.0;SCO
+Dynamo Makhachkala;Dynamo Makhachkala;100.0;RUS
+Dynamo Moscow;Dynamo Moskva;76.92307692307692;RUS
+East Fife;St Mirren;44.44444444444444;SCO
+East Stirling;St Mirren;45.45454545454546;SCO
+Edinburgh City;Celtic;42.75;SCO
+Ekenas;Seinajoki;49.090909090909086;FIN
+Elgin;Dunfermline;60.00000000000001;SCO
+Estrela;Estoril;71.42857142857143;POR
+Exeter;Colchester;65.45454545454547;ENG
+Extremadura UD;Extremadura;95.0;ESP
+FC Arges;Arges Pitesti;85.5;ROM
+FC Botosani;Botosani;95.0;ROM
+FC Brasov;Brasov;90.0;ROM
+FC Copenhagen;FC Kobenhavn;72.0;DEN
+FC Edinburgh;Falkirk;31.57894736842105;SCO
+FC Hermannstadt;Hermannstadt;95.0;ROM
+FC Rapid Bucuresti;Rapid Bucuresti;95.0;ROM
+FC Voluntari;Voluntari;95.0;ROM
+FCSB;CFR Cluj;45.0;ROM
+FK Anzi Makhackala;Anzhi;76.0;RUS
+FK Rostov;Rostov;90.0;RUS
+Falkirk;Falkirk;100.0;SCO
+Farul Constanta;Farul;90.0;ROM
+FeralpiSalo;Feralpisalo;90.9090909090909;ITA
+Feyenoord ;Feyenoord;95.0;NED
+Fleetwood Town;Bolton;45.0;ENG
+Forest Green;Nott'm Forest;63.33333333333332;ENG
+Forfar;Falkirk;46.15384615384615;SCO
+GKS Belchatow;Belchatow;95.0;POL
+GKS Katowice;Katowice;90.0;POL
+Gaz Metan Medias;Gaz Metan;90.0;ROM
+Gaziantep;Gaziantepspor;81.81818181818181;TUR
+Germinal;Geel;60.00000000000001;BEL
+Gimnastic;Girona;65.45454545454547;ESP
+Gnistan;Allianssi;37.5;FIN
+Gornik Z.;Gornik;90.0;POL
+Gornik Zabrze;Gornik;90.0;POL
+Goteborg;Goeteborg;94.11764705882352;SWE
+Graafschap ;Graafschap;95.23809523809523;NED
+Grazer AK;GAK;72.0;AUT
+Gretna;Gretna;100.0;SCO
+Grodig;Groedig;92.3076923076923;AUT
+Groningen ;Groningen;95.0;NED
+HIFK;HJK Helsinki;51.42857142857142;FIN
+HJK;HJK Helsinki;90.0;FIN
+Hacken;Haecken;92.3076923076923;SWE
+Halifax;Hull;51.42857142857142;ENG
+HamKam;Ham-Kam;92.3076923076923;NOR
+Hamilton;Hamilton;100.0;SCO
+Harrogate;Stoke;51.42857142857142;ENG
+Hartberg;Hartberg;100.0;AUT
+Hartlepool;Blackpool;52.63157894736843;ENG
+Helsingor;Helsingor;100.0;DEN
+Heracles ;Heracles;95.0;NED
+Hereford;Brentford;70.58823529411764;ENG
+Hobro;Hobro;100.0;DEN
+Honka;Honka Espoo;90.0;FIN
+Hull;Hull;100.0;ENG
+Hvidovre IF;Hvidovre;95.0;DEN
+Ilves;Ilves Tampere;90.0;FIN
+Inverness C;Inverness;95.0;SCO
+JJK Jyvaskyla;Jyvaeskylae;75.0;FIN
+Jaro;Jokerit;60.00000000000001;FIN
+Jerv;Jerv;100.0;NOR
+Jonkopings;Joenkoeping;85.71428571428572;SWE
+KPV Kokkola;Haka;45.0;FIN
+KTP;TPS Turku;72.0;FIN
+Kaiserslautern ;Kaiserslautern;96.55172413793103;GER
+Kallithea;Kalithea;94.11764705882352;GRE
+Kelty Hearts;Hearts;90.0;SCO
+Khimki;FC Khimki;90.0;RUS
+Kidderminster;Leicester;54.54545454545454;ENG
+Korona Kielce;Korona;90.0;POL
+Krasnodar;FC Krasnodar;95.0;RUS
+Krylya Sovetov;Kryliya Sovetov;96.55172413793103;RUS
+KuPS;Kuopio;60.00000000000001;FIN
+LKS Lodz;LKS;90.0;POL
+Lech Poznan;Lech;90.0;POL
+Lechia Gdansk;Lech;90.0;POL
+Leczna;Gornik Leczna;90.0;POL
+Legnica;Miedz Legnica;90.0;POL
+Leyton Orient;Everton;55.38461538461539;ENG
+Lincoln;Swindon;57.14285714285714;ENG
+Lokomotiv Moscow;Tosno;54.0;RUS
+Luton;Luton;100.0;ENG
+M. Saransk;Spartak Nalchik;57.0;RUS
+Macclesfield;Huddersfield;58.33333333333333;ENG
+Malmo FF;Malmoe;71.42857142857143;SWE
+Mansfield;Man United;63.1578947368421;ENG
+Mariehamn;Mariehamn;100.0;FIN
+Millwall;Millwall;100.0;ENG
+Milton Keynes Dons;Milton Keynes Dons;100.0;ENG
+Mjallby;Mjaellby;93.33333333333333;SWE
+Mjondalen;Mjondalen;100.0;NOR
+Montrose;St Johnstone;56.25;SCO
+Morecambe;Wycombe;50.0;ENG
+Morton;Livingston;60.00000000000001;SCO
+Motor Lublin;Motor Lublin;100.0;POL
+Mouscron-Peruwelz;Mouscron;90.0;BEL
+Navodari;Iasi;51.42857142857142;ROM
+Neustadt;Wiener Neustadt;90.0;AUT
+Newport County;Coventry;64.28571428571429;ENG
+Norrkoping;Norrkoeping;95.23809523809523;SWE
+Northampton;Southampton;81.81818181818181;ENG
+Nott'm Forest;Nott'm Forest;100.0;ENG
+Notts County;Coventry;64.28571428571429;ENG
+OFI Crete;OFI;90.0;GRE
+Odd;Odd Grenland;90.0;NOR
+Oftasspor;Hatayspor;66.66666666666667;TUR
+Oldham;Fulham;66.66666666666667;ENG
+Olympiakos Volou;Olympiakos;90.0;GRE
+Orebro;Oerebro;92.3076923076923;SWE
+Orenburg;Orenburg;100.0;RUS
+Osmanlispor;Istanbulspor;69.56521739130434;TUR
+Oster;Oester;90.9090909090909;SWE
+Osters;Ostersund;90.0;SWE
+Ostersunds;Ostersund;94.73684210526316;SWE
+Otelul;Otelul Galati;90.0;ROM
+Oxford;Oxford;100.0;ENG
+PK-35 Vantaa;Haka;60.00000000000001;FIN
+PS Kemi;HJK Helsinki;38.57142857142858;FIN
+Pari NN;Spartak Nalchik;51.42857142857142;RUS
+Partick;Partick;100.0;SCO
+Peterboro;Peterboro;100.0;ENG
+Peterhead;Gretna;49.090909090909086;SCO
+Petrolul;Petrolul Ploiesti;90.0;ROM
+Piacenza ;Piacenza;95.0;ITA
+Plymouth;Plymouth;100.0;ENG
+Pogon Szczecin;Pogon;90.0;POL
+Poli Iasi;Iasi;90.0;ROM
+Poli Timisoara;Timisoara;90.0;ROM
+Preußen Münster;Preussen Munster;83.87096774193549;GER
+Puszcza;Puszcza Niepolomice;90.0;POL
+Queen of Sth;Queen of Sth;100.0;SCO
+Queens Park;Partick;65.45454545454547;SCO
+R. Volgograd;Rotor Volgograd;81.4814814814815;RUS
+RWD Molenbeek;Molenbeek;95.0;BEL
+Radomiak Radom;Radomiak;90.0;POL
+Raith;Hamilton;54.0;SCO
+Raith Rvs;Hearts;40.0;SCO
+Rakow;Rakow;100.0;POL
+Randers FC;Randers;95.0;DEN
+Ranheim;Ranheim;100.0;NOR
+Reading;Reading;100.0;ENG
+Reggiana;Reggiana;100.0;ITA
+Rochdale;Doncaster;47.05882352941176;ENG
+Roda ;Roda;95.0;NED
+Roda JC;Roda;90.0;NED
+Rodina Moscow;Tosno;54.0;RUS
+Ross County;Ross County;100.0;SCO
+Rotherham;Rotherham;100.0;ENG
+Rouen;Quevilly Rouen;90.0;FRA
+Rovaniemi;Rovaniemi;100.0;FIN
+Ruch Chorzow;Ruch;90.0;POL
+Rushden & D;QPR;45.0;ENG
+SJK;HJK Helsinki;60.00000000000001;FIN
+SK Rapid;Rapid Wien;73.07692307692307;AUT
+SKA Khabarovsk;Khabarovsk;95.0;RUS
+Salford;Watford;71.42857142857143;ENG
+Sandecja Nowy S.;Sandecja Nowy Sacz;88.23529411764706;POL
+Sarpsborg 08;Sarpsborg;95.0;NOR
+Scunthorpe;Scunthorpe;100.0;ENG
+Sepsi Sf. Gheorghe;Sepsi;90.0;ROM
+Shrewsbury;Crewe;54.0;ENG
+Sirius;IK Sirius;90.0;SWE
+Slask Wroclaw;Slask;90.0;POL
+Sochi;Sochi;100.0;RUS
+Sonderjyske;SonderjyskE;90.9090909090909;DEN
+Southend;Southend;100.0;ENG
+Sparta;Sparta Rotterdam;90.0;NED
+Spartak Moscow;Spartak Moskva;78.57142857142857;RUS
+Spartans;Hearts;57.14285714285714;SCO
+St. Polten;St Poelten;90.0;AUT
+Stal Mielec;Stal Mielec;100.0;POL
+Stenhousemuir;Falkirk;40.0;SCO
+Stevenage;Stoke;67.5;ENG
+Stirling;St Mirren;58.82352941176471;SCO
+Stoke;Stoke;100.0;ENG
+Stranraer;St Mirren;55.55555555555556;SCO
+Stuttgarter K;Stuttgart;81.81818181818181;GER
+Sutton;Luton;72.72727272727273;ENG
+Swansea;Swansea;100.0;ENG
+T. Moscow;Tosno;57.14285714285714;RUS
+TPS;TPS Turku;90.0;FIN
+Tambov;Tambov;100.0;RUS
+Termalica B-B.;Cracovia;45.6;POL
+Tirol;Wolfsberg;45.0;AUT
+Torpedo Moscow;Torpedo Metallurg ZIL;85.5;RUS
+Torquay;Southampton;41.53846153846154;ENG
+Tosno;Tosno;100.0;RUS
+Trelleborgs;Trelleborg;95.23809523809523;SWE
+U Craiova;Craiova;95.0;ROM
+U Craiova 1948;Craiova 1948;95.0;ROM
+U. Cluj;Universitatea Cluj;85.5;ROM
+Ufa;Ufa;100.0;RUS
+Ull/Kisa;Kristiansund;48.0;NOR
+Unirea Slobozia;Unirea Slobozia;100.0;ROM
+Univ. Craiova;Craiova;90.0;ROM
+Ural;Uralan Elista;90.0;RUS
+Utrecht ;Utrecht;95.0;NED
+VPS;TPS Turku;60.00000000000001;FIN
+Varberg;Varbergs;93.33333333333333;SWE
+Vasteras SK;Vaesteras;80.0;SWE
+Vendsyssel;Vendsyssel;100.0;DEN
+Vestsjaelland;Vestsjaelland;100.0;DEN
+Viitorul Constanta;Viitorul;90.0;ROM
+Vitesse ;Vitesse;95.0;NED
+Vladikavkaz;Volga;67.5;RUS
+Volga N. Novgorod;Volga;90.0;RUS
+Volgar-Astrakhan;Volga;90.0;RUS
+Volos NFC;NFC Volos;95.0;GRE
+Waasland-Beveren;Beveren;90.0;BEL
+Warta Poznan;Warta;90.0;POL
+Widzew Lodz;Widzew;90.0;POL
+Wigan;Wigan;100.0;ENG
+Willem II ;Willem II;95.0;NED
+Wisla Plock;Plock;90.0;POL
+Wolfsberger AC;Wolfsberg;90.0;AUT
+Wrexham;West Ham;53.333333333333336;ENG
+Wycombe;Wycombe;100.0;ENG
+Yeni Malatyaspor;Malatyaspor;95.0;TUR
+Yenisey;Yenisey;100.0;RUS
+Yeovil;Yeovil;100.0;ENG
+York;Bradford;51.42857142857142;ENG
+Zaglebie;Lubin;45.0;POL
+Zaglebie Sosnowiec;Sosnowiec;90.0;POL
+Zawisza;Zawisza;100.0;POL
