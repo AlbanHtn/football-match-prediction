@@ -18,5 +18,5 @@ ________________________________________________________________________________
 
 Plus tard :
 
--> LSTM et transformers
+-> streamlit avec simulateur de prédiction
 -> rapport
