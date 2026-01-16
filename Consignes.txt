@@ -1,1 +1,44 @@
 Ce qu'il faut faire
+=======
+# A faire 17/12 11h15 PROJET
+
+(Transition vers le Non-Linéaire) pour dépasser ce plafond de 52.5% et mieux détecter les matchs nuls
+
+-> jouer sur le poids du nul si jamais
+-> utiliser selection de features (shap, rrct) après apprentissage pour voir (RF et XGBoost)
+
+(SIMON)
+
+rf -> foret aleatoire à faire (explicatif)
+	-> 2 versions : sur les variables plus importantes (avec shap method) et sans pour comparer 
+
+(ALBAN)
+
+XGBoost pour capturer les effets de seuil et les interactions complexes
+
+_______________________________________________________________________________________________________
+
+Plus tard :
+
+-> voir si on a pas un parametre pour donner la répartition exact des résultats VH, N, VE, avec l'ajout des poids exact
+
+-> Prépa données
+	voir : PEUT ETRE PRENDRE QUE CEUX AVEC FUZZY MATCHING
+	clean notebook prépa données
+-> EDA
+	clean notebook automatisé
+-> RL 
+	revoir notebook RL car matrice de confusion avec rf mais pas RL...
+	clean notebook RL
+-> XGB 
+	tester sans poids sur le nul
+	clean notebook XGB
+	faire comme simon arbre de choix pour XGB
+(-> streamlit avec simulateur de prédiction)
+-> rapport
+
+
+- faire rf et rl comme XGB
+- ameliorer affichages pour mettre dans rapport 
+- voir ajout de poids contre absence de nuls (probleme actuel)
+- rapport
