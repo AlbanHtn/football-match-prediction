@@ -1,11 +1,11 @@
 Ce qu'il faut faire
-=======
 # A faire 17/12 11h15 PROJET
 
 (Transition vers le Non-Linéaire) pour dépasser ce plafond de 52.5% et mieux détecter les matchs nuls
 
 -> jouer sur le poids du nul si jamais
 -> utiliser selection de features (shap, rrct) après apprentissage pour voir (RF et XGBoost)
+->utiliser selection de features (shap, rrct) après apprentissage pour voir (RF et XGBoost)
 
 (SIMON)
 
@@ -42,3 +42,5 @@ Plus tard :
 - ameliorer affichages pour mettre dans rapport 
 - voir ajout de poids contre absence de nuls (probleme actuel)
 - rapport
+-> streamlit avec simulateur de prédiction
+-> rapport

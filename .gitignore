@@ -1,3 +1,9 @@
-Datasets_FV_zip/
-Donnees/
 .venv_pred_match/
+Donnees/
+
+Donnees/Matches_with_Elo.csv
+Donnees/matches_select_championnats.csv
+Donnees/matches_recent.csv
+Donnees/matches_pred_full.csv
+Donnees/Matches_enrichies.csv
+Donnees/matches_clean.csv
