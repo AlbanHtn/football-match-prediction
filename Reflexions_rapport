@@ -1,9 +1,0 @@
-Problèmes :
-
-- on a enlever des features importantes pour une méthode comme XGB 
--> solution: finalement rajouter au début du notebook (modélisation XGB) 
--> pb des nuls
-
-- pb de RL car limité car méthode linéaire
-
-- section dans le rapport avec comparaison poids sur match nul ou non (avec l'ajout des matrices)
