@@ -1,70 +1,108 @@
-# Projet 5A – Prédiction de résultats de matchs de football
+# Football Match Prediction
 
-## Objectif
-L’objectif de ce projet est de construire un modèle de Machine Learning capable de prédire le résultat d’un match de football (victoire à domicile, match nul, victoire à l’extérieur) en s’appuyant sur des données historiques (scores, statistiques de match, cotes des bookmakers, classements Elo, forme récente…).
+Predicting football match outcomes (Home Win / Draw / Away Win) using historical match data, Elo ratings, betting odds, and rolling team form statistics.
 
-## 📂 Organisation du dépôt
+**Dataset**: ~470,000 matches across 27 countries and 42 leagues (2000–2025)  
+**Best model accuracy**: 57.15% (XGBoost with odds features) vs. 53.63% market baseline
 
-Projet_5A_Prediction_matchs/
+---
 
-│ Programmes/
+## Architecture
 
-   -> P5A_Prepa_donnees.ipynb # préparation des données
-   
-   -> P5A_Analyse_Exploratoire_EDA.ipynb # analyse des données
+```
+football-prediction/
+├── src/football_prediction/   # Core Python package
+│   ├── config/                # Centralized path and model configuration
+│   ├── data/                  # Ingestion, merging, cleaning
+│   ├── features/              # Feature engineering (Elo, form, odds)
+│   ├── models/                # RF, Logistic Regression, XGBoost
+│   └── evaluation/            # Metrics, ROI simulation, market baseline
+├── notebooks/                 # Analysis and experimentation notebooks
+├── data/
+│   ├── raw/                   # Source CSVs (gitignored — see below)
+│   ├── interim/               # Intermediate outputs (gitignored)
+│   └── processed/             # Analysis-ready datasets (gitignored)
+├── references/                # Small reference tables (versioned)
+├── models/                    # Serialized trained models (gitignored)
+├── reports/eda/               # ydata-profiling HTML reports (gitignored)
+└── tests/                     # Unit tests
+```
 
-│ Donnees/
+## Data Sources
 
-   -> EloRatings.csv # Classements Elo (ClubElo, 2000–2025)
-   
-   -> Matches.csv # Résultats et stats de matchs (2000–2025)
-   
-   -> Matches_enrichies.csv # Ajout de nouvelles variables et nettoyage (2002-2025)
+| File | Source | Size | Description |
+|------|--------|------|-------------|
+| `Matches.csv` | [Football-Data.co.uk](https://www.football-data.co.uk/) | ~37 MB | Match results and statistics (2000–2025) |
+| `EloRatings.csv` | [ClubElo](https://www.clubelo.com/) | ~7.5 MB | Bi-monthly Elo snapshots for ~500 clubs |
 
-│── requirements.txt 
+Data files are **not versioned** (too large for git). Place them in `data/raw/` before running the pipeline.
 
-│── README.md 
+See [`README_DB_Elo_Match.md`](README_DB_Elo_Match.md) for full column documentation.
 
-## Données utilisées
+## Installation
 
-Les données proviennent de deux sources :
-- **[Football-Data.co.uk](https://www.football-data.co.uk/)** → résultats et statistiques de matchs  
-- **[ClubElo](https://www.clubelo.com/)** → classements Elo bimensuels  
-
-Le jeu de données contient :
-- **environ 470 000 matchs** (2000/01 → 2024/25)  
-- **27 pays** et **42 championnats**  
-- **Elo Ratings** mis à jour deux fois par mois  
-
-## 🛠️ Étapes prévues
-
-1. **Préparation des données**
-   - Création de la variable cible : `FTResult` (H/D/A)
-   - Nettoyage des variables
-   - (Uniformisation des noms de clubs)
-
-2. **Feature Engineering**
-   - Différence Elo (`EloDiff`)
-   - Forme récente (Form3, Form5, streaks)
-   - Variables dérivées (probabilités implicites des cotes, momentum, etc.)
-
-3. **Analyse exploratoire (EDA)**
-   - Analyse univariée (distribution des scores, des odds, des Elo, etc.)
-   - Analyse bivariée (corrélations, comparaisons entre features)
-
-4. **Modélisation**
-   - Régression logistique
-   - Random Forest
-   - Gradient Boosting (XGBoost / LightGBM)
-   - Réseaux de neurones (optionnel)
-
-5. **Évaluation**
-   - Accuracy, F1-score, Log Loss
-   - Comparaison avec les prédictions implicites des bookmakers
-
-## ⚙️ Installation
-
-Cloner le dépôt :
 ```bash
 git clone https://github.com/AlbanHtn/Projet_5A_Prediction_matchs.git
 cd Projet_5A_Prediction_matchs
+
+python -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+
+pip install -e ".[dev]"
+```
+
+## Data Setup
+
+Place the raw source files:
+```
+data/raw/Matches.csv
+data/raw/EloRatings.csv
+```
+
+Then run the preparation notebook:
+```bash
+jupyter notebook notebooks/01_data_preparation.ipynb
+```
+
+This produces the processed datasets in `data/interim/` and `data/processed/`.
+
+## Pipeline Overview
+
+```
+data/raw/Matches.csv  ──┐
+                         ├─→ [01_data_preparation] ─→ data/interim/Matches_with_Elo.csv
+data/raw/EloRatings.csv ─┘                          ─→ data/processed/*.csv
+
+data/processed/ ─→ [02_eda_univariate]       (distribution analysis)
+               ─→ [03_eda_comparative]       (dataset version comparison)
+               ─→ [04_modeling_comparison]   (RF / LR / XGBoost benchmarks)
+```
+
+## Models
+
+All models target a 3-class prediction: `H` (Home Win), `D` (Draw), `A` (Away Win).
+
+| Model | Accuracy (w/ odds) | Accuracy (blind) | Market baseline |
+|-------|--------------------|------------------|-----------------|
+| Logistic Regression | 55.68% | 52.45% | 53.63% |
+| Random Forest | 54.82% | 52.47% | 53.63% |
+| XGBoost | **57.15%** | 51.86% | 53.63% |
+
+Training uses `TimeSeriesSplit` (5 folds) to respect temporal ordering.
+
+## Running Tests
+
+```bash
+pytest
+```
+
+## Key Design Decisions
+
+- **No data leakage**: post-match features (goals, shots, cards) are only used as lagged rolling stats from *previous* matches, never from the current game.
+- **Temporal cross-validation**: `TimeSeriesSplit` instead of random k-fold — future matches cannot inform past predictions.
+- **Market baseline as reference**: the naive "bet on the favorite" strategy is the true baseline, not random chance.
+- **Elo merge strategy**: `merge_asof` with `direction='backward'` ensures only Elo snapshots *before* match date are used.
+
+## Repository History
+
+This project was originally developed as part of a 5th-year engineering school project (Guillet & Haton). The current structure reflects a professional refactoring of the original notebook-centric codebase.
