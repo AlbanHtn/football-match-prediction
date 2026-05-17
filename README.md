@@ -1,5 +1,9 @@
 # Football Match Prediction
 
+[![CI](https://github.com/AlbanHtn/Projet_5A_Prediction_matchs/actions/workflows/ci.yml/badge.svg)](https://github.com/AlbanHtn/Projet_5A_Prediction_matchs/actions/workflows/ci.yml)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
+
 Predicting football match outcomes (Home Win / Draw / Away Win) using historical match data, Elo ratings, betting odds, and rolling team form statistics.
 
 **Dataset**: ~470,000 matches across 27 countries and 42 leagues (2000–2025)  
