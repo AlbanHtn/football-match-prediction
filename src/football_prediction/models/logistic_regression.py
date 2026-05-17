@@ -21,7 +21,6 @@ class LogisticRegressionPredictor(BaseMatchPredictor):
         **lr_kwargs,
     ) -> None:
         self._lr_kwargs = {
-            "multi_class": "multinomial",
             "solver": "lbfgs",
             "max_iter": 1000,
             "random_state": 42,

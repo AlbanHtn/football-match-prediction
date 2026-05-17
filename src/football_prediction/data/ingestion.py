@@ -32,12 +32,14 @@ def load_matches(path: Path) -> pd.DataFrame:
         )
 
     logger.info("Loading matches from %s", path)
-    df = pd.read_csv(path, parse_dates=_MATCHES_PARSE_DATES, low_memory=False)
+    df = pd.read_csv(path, low_memory=False)
 
     required = {"Division", "MatchDate", "HomeTeam", "AwayTeam", "FTResult"}
     missing = required - set(df.columns)
     if missing:
         raise ValueError(f"Matches CSV is missing required columns: {missing}")
+
+    df["MatchDate"] = pd.to_datetime(df["MatchDate"])
 
     logger.info("Loaded %d matches across %d divisions", len(df), df["Division"].nunique())
     return df
@@ -62,12 +64,14 @@ def load_elo(path: Path) -> pd.DataFrame:
         )
 
     logger.info("Loading Elo ratings from %s", path)
-    df = pd.read_csv(path, parse_dates=_ELO_PARSE_DATES)
+    df = pd.read_csv(path)
 
     required = {"Date", "Club", "Elo"}
     missing = required - set(df.columns)
     if missing:
         raise ValueError(f"EloRatings CSV is missing required columns: {missing}")
+
+    df["Date"] = pd.to_datetime(df["Date"])
 
     logger.info("Loaded %d Elo snapshots for %d clubs", len(df), df["Club"].nunique())
     return df
