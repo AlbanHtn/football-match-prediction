@@ -47,8 +47,8 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Football match prediction pipeline")
     p.add_argument("--model", choices=list(_MODELS), default="xgb")
     p.add_argument("--big5-only", action="store_true", default=True)
-    p.add_argument("--min-year", type=int, default=ModelConfig.MIN_YEAR)
-    p.add_argument("--cv-folds", type=int, default=ModelConfig.CV_FOLDS)
+    p.add_argument("--min-year", type=int, default=ModelConfig().min_season_year)
+    p.add_argument("--cv-folds", type=int, default=ModelConfig().n_cv_splits)
     return p.parse_args(argv)
 
 
@@ -67,8 +67,11 @@ def run(argv: list[str] | None = None) -> None:
     paths = DataPaths()
 
     logger.info("Loading data …")
-    matches = load_matches(paths.matches_csv)
-    elo = load_elo(paths.elo_csv)
+    # Prefer raw/ if present, otherwise fall back to legacy Donnees/
+    matches_path = paths.raw_matches if paths.raw_matches.exists() else paths.legacy_matches
+    elo_path = paths.raw_elo if paths.raw_elo.exists() else paths.legacy_elo
+    matches = load_matches(matches_path)
+    elo = load_elo(elo_path)
 
     if args.big5_only:
         matches = filter_big5(matches)
