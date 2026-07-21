@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from football_prediction.evaluation.metrics import compute_classification_metrics, compute_roi
 from football_prediction.evaluation.baseline import market_baseline_accuracy
+from football_prediction.evaluation.metrics import compute_classification_metrics, compute_roi
 
 
 def test_perfect_classifier():

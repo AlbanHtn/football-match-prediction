@@ -1,7 +1,6 @@
 """Tests for data cleaning utilities."""
 
 import pandas as pd
-import pytest
 
 from football_prediction.data.cleaning import (
     BIG5_DIVISIONS,

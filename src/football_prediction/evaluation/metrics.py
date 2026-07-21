@@ -1,6 +1,5 @@
 """Evaluation metrics for match outcome prediction."""
 
-from typing import Literal
 
 import numpy as np
 import pandas as pd
@@ -73,7 +72,7 @@ def compute_roi(
     total_staked = 0.0
     total_returned = 0.0
 
-    for i, (true, pred) in enumerate(zip(y_true, y_pred)):
+    for i, (true, pred) in enumerate(zip(y_true, y_pred, strict=True)):
         if threshold > 0.0 and pred_proba is not None:
             # Only bet if model confidence exceeds threshold
             pred_classes = list(outcome_to_odd.keys())

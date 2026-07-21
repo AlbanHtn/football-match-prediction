@@ -67,13 +67,6 @@ def add_form_rolling_stats(
     for col in stat_columns:
         for window in windows:
             new_col = f"{col}_Roll{window}"
-            # Compute per-team rolling mean, shifted by 1 to avoid leakage
-            rolling_series = (
-                df.groupby(df[[team_cols[0], team_cols[1]]].stack().name if False else None)[col]
-                .transform(lambda x: x.shift(1).rolling(window, min_periods=1).mean())
-            )
-            # Per-team rolling requires a different approach:
-            # stack home + away into a long format, then unstack
             df[new_col] = _per_team_rolling(df, col, team_cols, date_col, window)
 
     return df
