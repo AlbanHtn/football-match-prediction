@@ -1,189 +1,226 @@
-# ⚽ Football Match Prediction — Market Efficiency Study
+# ⚽ Football Match Prediction — Étude d'efficience de marché
 
-[![CI](https://github.com/AlbanHtn/Projet_5A_Prediction_matchs/actions/workflows/ci.yml/badge.svg)](https://github.com/AlbanHtn/Projet_5A_Prediction_matchs/actions/workflows/ci.yml)
+[![CI](https://github.com/AlbanHtn/football-match-prediction/actions/workflows/ci.yml/badge.svg)](https://github.com/AlbanHtn/football-match-prediction/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-3776AB.svg?logo=python&logoColor=white)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-49%20passing-brightgreen.svg)](#running-tests)
 
-**Can pre-match sports data (Elo ratings, rolling form, match statistics) predict football outcomes as well as bookmaker odds do — without using the odds themselves?**
+**Les données sportives pré-match (classement Elo, forme récente, statistiques de match) permettent-elles de prédire les résultats de football aussi bien que les cotes des bookmakers — sans utiliser ces cotes ?**
 
-End-to-end pipeline on **52,580 Big-5-league matches (2006–2025)**: data reconciliation, temporal feature engineering, and a strict anti-leakage evaluation protocol (`TimeSeriesSplit`, 5 folds) comparing Logistic Regression, Random Forest, and XGBoost against the market baseline.
+Pipeline end-to-end sur **52 580 matchs des 5 grands championnats européens (2006–2025)** : réconciliation des données, feature engineering temporel, et protocole d'évaluation strict anti-fuite (`TimeSeriesSplit`, 5 folds) comparant Régression Logistique, Random Forest et XGBoost à la baseline du marché.
 
-> **Headline result:** the blind XGBoost model (no odds) reaches **51.9% accuracy**, capturing **96.7% of the market's predictive signal** (53.63% baseline) with strong calibration (**ECE = 1.7%**). A value-betting simulation on its predictions yields **ROI = −5.8%** — matching the bookmaker's margin almost exactly. This is not a failed strategy; it is empirical evidence for the **Efficient Market Hypothesis** in football betting markets, obtained honestly rather than through overfitting or leakage.
+> **Résultat clé :** le modèle XGBoost aveugle (sans les cotes) atteint **51,9% d'accuracy**, captant **96,7% du signal prédictif du marché** (baseline à 53,63%) avec une calibration fine (**ECE = 1,7%**). Une simulation de value-betting sur ses prédictions donne un **ROI = −5,8%** — quasiment aligné sur la marge du bookmaker. Ce n'est pas une stratégie ratée ; c'est une preuve empirique de l'**hypothèse d'efficience de marché** sur les marchés de paris football, obtenue honnêtement plutôt que par surapprentissage ou fuite de données.
 
 ---
 
-## Key Results
+## Résultats clés
 
-| Model | Accuracy — with odds | Accuracy — blind (no odds) |
+| Modèle | Accuracy — avec cotes | Accuracy — aveugle (sans cotes) |
 |-------|----------------------|------------------------------|
-| Market baseline *(bet the favorite)* | — | **53.63%** |
-| Logistic Regression | 53.39% | 52.45% |
-| Random Forest | 53.41% | 52.47% |
-| **XGBoost** | 52.54% | **51.86%** |
+| Baseline marché *(parier sur le favori)* | — | **53,63%** |
+| Régression Logistique | 53,39% | 52,45% |
+| Random Forest | 53,41% | 52,47% |
+| **XGBoost** | 52,54% | **51,86%** |
 
-*Averaged over 5 chronological `TimeSeriesSplit` folds spanning 2013–2025. "Blind" models use only sport-derived features (Elo, form, match stats) — no bookmaker odds.*
+*Moyenne sur 5 folds chronologiques `TimeSeriesSplit` couvrant 2013–2025. Les modèles "aveugles" utilisent uniquement des variables sportives (Elo, forme, statistiques de match) — aucune cote de bookmaker.*
 
-**Diagnostics — Blind XGBoost:**
+**Diagnostics — XGBoost aveugle :**
 
-| Metric | Value | Interpretation |
+| Métrique | Valeur | Interprétation |
 |--------|-------|-----------------|
-| Accuracy | 51.86% | 96.7% of market baseline's accuracy (51.86 / 53.63) |
-| Log Loss | 0.993 | — |
-| Brier Score (Home) | 0.218 | — |
-| Expected Calibration Error (ECE) | 1.7% | Predicted probabilities closely match observed outcome frequencies |
-| ROI at 0% value threshold | **−5.79%** | Aligns with the ~5–6% bookmaker overround → no exploitable edge |
+| Accuracy | 51,86% | 96,7% de l'accuracy de la baseline marché (51,86 / 53,63) |
+| Log Loss | 0,993 | — |
+| Brier Score (Domicile) | 0,218 | — |
+| Expected Calibration Error (ECE) | 1,7% | Les probabilités prédites correspondent finement aux fréquences observées |
+| ROI à seuil de value 0% | **−5,79%** | Aligné sur la marge bookmaker (~5–6%) → pas d'edge exploitable |
 
-**Why a negative ROI is the right result, not a failure:** a model that "beats the market" on a public, decade-spanning dataset without foresight bias would be extraordinary — and worth treating with suspicion. Odds set by professional bookmakers already price in almost everything a public dataset can offer. Reproducing 96.7% of that signal from sport-only features (no market information) is a strong result; losing money at a rate that mirrors the bookmaker's own margin, instead of some unexplained anomaly, is the expected, honest outcome of a market with no obvious inefficiency. It is presented here as validation of methodology, not as a trading strategy.
-
----
-
-## Business Context
-
-Betting markets aggregate enormous information flows — team news, public sentiment, sharp bettor positioning — into a single number: the odds. Testing whether a data-driven model can approach or beat that number is a direct test of market efficiency, and a standard sanity check any quantitative sports-betting team needs its models to pass *before* trusting them with capital.
-
-**Why this is a hard, honest test:**
-- Football is low-scoring and high-variance — a single set-piece changes the outcome
-- Draws are structurally difficult to predict (~26% of matches, weak correlation with pre-match signal — see per-class recall below)
-- Bookmaker odds already encode nearly all public information; beating them consistently would imply either overfitting, leakage, or a genuine (rare) edge
-- Any rolling-form or Elo feature computed carelessly introduces look-ahead bias and produces artificially inflated accuracy — the opposite of what happened here
+**Pourquoi un ROI négatif est le bon résultat, pas un échec :** un modèle qui "bat" durablement le marché sur un jeu de données public couvrant une décennie, sans biais de prescience, serait extraordinaire — et suspect. Les cotes fixées par des bookmakers professionnels intègrent déjà quasiment toute l'information publique disponible. Reproduire 96,7% de ce signal à partir de variables purement sportives (sans information de marché) est un résultat solide ; perdre de l'argent à un rythme qui reflète précisément la marge du bookmaker, plutôt qu'une anomalie inexpliquée, est le résultat honnête et attendu d'un marché sans inefficience évidente. Il est présenté ici comme une validation de méthodologie, pas comme une stratégie de trading.
 
 ---
 
-## Methodology
+## Visualisations
 
-### Anti-Leakage Protocol — Three Independent Mechanisms
+<table>
+<tr>
+<td width="50%">
 
-1. **Elo ratings** — merged via `pd.merge_asof(direction='backward')`: only Elo snapshots dated *before* each match are eligible.
-2. **Rolling form / match statistics** — all rolling windows (`k=5`) use `.shift(1)`: the current match's own result never leaks into its own features.
-3. **Cross-validation** — `TimeSeriesSplit(n_splits=5)`: training folds always precede their validation fold chronologically. No shuffling, no random k-fold.
+**Calibration (ECE = 1,7%)**
+<img src="reports/figures/calibration_curve.png" alt="Courbe de calibration XGBoost">
 
-### Two Model Variants per Algorithm
+</td>
+<td width="50%">
 
-- **V1 — with odds**: includes bookmaker implied probabilities as features. Used as an upper-bound benchmark — closely tracks the market by construction.
-- **V2 — blind**: sport-only features (Elo, form, match statistics). This is the model whose results are reported above — it answers the real question: *does public sports data alone carry predictive signal?*
+**Matrice de confusion (aveugle)**
+<img src="reports/figures/confusion_matrix.png" alt="Matrice de confusion XGBoost">
 
-### Data Reconciliation
+</td>
+</tr>
+<tr>
+<td width="50%">
 
-Club names across the match results source and the Elo ratings source do not match exactly (accents, abbreviations, translations). A **fuzzy-matching** pass (`rapidfuzz`) against a curated mapping table (`club_mapping_clean.csv`) raised Elo-feature completeness from **59.5% to 90.6%** on the Big-5 subset.
+**Explicabilité SHAP (top variables)**
+<img src="reports/figures/shap_summary.png" alt="SHAP summary plot">
+
+</td>
+<td width="50%">
+
+**ROI par seuil de value**
+<img src="reports/figures/roi_by_threshold.png" alt="ROI par seuil de value">
+
+</td>
+</tr>
+</table>
+
+*Le modèle est bien calibré (les probabilités annoncées reflètent les fréquences observées), confond surtout les nuls avec le favori (comportement attendu — les nuls sont structurellement difficiles à prédire), s'appuie principalement sur l'écart de classement Elo, et son ROI se dégrade quand on sélectionne des paris plus "exotiques" (value élevée) — cohérent avec un marché efficient.*
+
+---
+
+## Contexte métier
+
+Les marchés de paris agrègent des flux d'information considérables — actualité des équipes, sentiment du public, positionnement des parieurs avertis — en un seul chiffre : la cote. Tester si un modèle piloté par la donnée peut approcher ou battre ce chiffre est un test direct d'efficience de marché, et un contrôle de cohérence standard que toute équipe quantitative de paris sportifs doit faire passer à ses modèles *avant* de leur confier du capital.
+
+**Pourquoi ce test est difficile et honnête :**
+- Le football est un sport à faible score et forte variance — une seule phase arrêtée change le résultat
+- Les matchs nuls sont structurellement difficiles à prédire (~26% des matchs, faible corrélation avec le signal pré-match — voir le recall par classe ci-dessous)
+- Les cotes des bookmakers encodent déjà quasiment toute l'information publique ; les battre durablement impliquerait soit du surapprentissage, soit une fuite de données, soit un edge réel (rare)
+- Toute variable de forme récente ou de classement Elo calculée sans précaution introduit un biais d'anticipation (look-ahead bias) et produit une accuracy artificiellement gonflée — l'inverse de ce qui a été obtenu ici
+
+---
+
+## Méthodologie
+
+### Protocole anti-fuite — Trois mécanismes indépendants
+
+1. **Classement Elo** — fusionné via `pd.merge_asof(direction='backward')` : seuls les snapshots Elo datés *avant* chaque match sont éligibles.
+2. **Forme récente / statistiques de match** — toutes les fenêtres glissantes (`k=5`) utilisent `.shift(1)` : le résultat du match courant ne fuite jamais dans ses propres variables.
+3. **Validation croisée** — `TimeSeriesSplit(n_splits=5)` : les folds d'entraînement précèdent toujours chronologiquement leur fold de validation. Pas de mélange, pas de k-fold aléatoire.
+
+### Deux variantes de modèle par algorithme
+
+- **V1 — avec cotes** : inclut les probabilités implicites des bookmakers comme variables. Utilisé comme benchmark de borne supérieure — suit le marché de très près par construction.
+- **V2 — aveugle** : variables purement sportives (Elo, forme, statistiques de match). C'est le modèle dont les résultats sont rapportés ci-dessus — il répond à la vraie question : *les données sportives publiques seules portent-elles un signal prédictif ?*
+
+### Réconciliation des données
+
+Les noms de clubs entre la source des résultats de matchs et la source des classements Elo ne correspondent pas exactement (accents, abréviations, traductions). Une passe de **fuzzy matching** (`rapidfuzz`) contre une table de correspondance curée (`club_mapping_clean.csv`) a porté la complétude des variables Elo de **59,5% à 90,6%** sur le sous-ensemble Big 5.
 
 ---
 
 ## Architecture
 
 ```
-src/football_prediction/          # Installable Python package (src layout, PEP 517)
+src/football_prediction/          # Package Python installable (src layout, PEP 517)
 │
 ├── config/
-│   └── settings.py               # DataPaths + ModelConfig dataclasses — no hardcoded paths
+│   └── settings.py               # Dataclasses DataPaths + ModelConfig — aucun chemin en dur
 │
 ├── data/
-│   ├── ingestion.py               # CSV loading with schema validation & typed parsing
-│   ├── cleaning.py                # Big5 filter, year filter, completeness filter
-│   └── merging.py                 # Elo join via merge_asof(direction='backward')
+│   ├── ingestion.py               # Chargement CSV avec validation de schéma & parsing typé
+│   ├── cleaning.py                # Filtre Big5, filtre année, filtre de complétude
+│   └── merging.py                 # Jointure Elo via merge_asof(direction='backward')
 │
 ├── features/
 │   ├── elo_features.py            # EloDiff, EloTotal, HomeEloAdvantage
-│   ├── form_features.py           # Rolling win rates (3 & 5-match windows) + momentum
-│   └── odds_features.py           # Implied probabilities, bookmaker margin
+│   ├── form_features.py           # Taux de victoire glissants (fenêtres 3 & 5 matchs) + momentum
+│   └── odds_features.py           # Probabilités implicites, marge bookmaker
 │
 ├── models/
-│   ├── base.py                    # Abstract BaseMatchPredictor — fit / predict / save / load
-│   ├── logistic_regression.py     # Multinomial LR in a StandardScaler Pipeline
+│   ├── base.py                    # BaseMatchPredictor abstrait — fit / predict / save / load
+│   ├── logistic_regression.py     # LR multinomiale dans un Pipeline StandardScaler
 │   ├── random_forest.py           # RandomForest (n=200, max_depth=8, min_leaf=20)
-│   └── xgboost_model.py           # XGBoost with H/D/A ↔ 0/1/2 label mapping
+│   └── xgboost_model.py           # XGBoost avec mapping labels H/D/A ↔ 0/1/2
 │
 ├── evaluation/
-│   ├── metrics.py                 # Accuracy, F1-macro, log loss, ROI simulation
-│   └── baseline.py                # Market baseline: argmax(implied probabilities)
+│   ├── metrics.py                 # Accuracy, F1-macro, log loss, simulation ROI
+│   └── baseline.py                # Baseline marché : argmax(probabilités implicites)
 │
-└── pipeline.py                    # CLI entry point: load → clean → features → train → eval
+└── pipeline.py                    # Point d'entrée CLI : chargement → nettoyage → features → entraînement → évaluation
 ```
 
 ---
 
-## Data Pipeline
+## Pipeline de données
 
 ```
   Matches.csv                 EloRatings.csv
-  228,377 rows                242,591 snapshots
+  228 377 lignes               242 591 snapshots
   Football-Data.co.uk         ClubElo.com
         │                           │
         └─────────────┬─────────────┘
                        │
-    Fuzzy-matched club reconciliation (rapidfuzz)
-    merge_asof(direction='backward') — no look-ahead
-    Elo feature completeness: 59.5% → 90.6%
+    Réconciliation des clubs par fuzzy matching (rapidfuzz)
+    merge_asof(direction='backward') — pas d'anticipation
+    Complétude des variables Elo : 59,5% → 90,6%
                        │
         ┌──────────────▼──────────────┐
         │      Feature Engineering    │
         │  · EloDiff / EloTotal       │
-        │  · Rolling form, k=5 (lag-1)│  ← lag-1: current match excluded
-        │  · Implied probabilities     │  ← odds-based features (V1 only)
+        │  · Forme glissante, k=5 (lag-1)│  ← lag-1 : match courant exclu
+        │  · Probabilités implicites   │  ← variables issues des cotes (V1 uniquement)
         └──────────────┬──────────────┘
                        │
-        Filter: Big 5 leagues, 2006–2025
-        → 52,580 matches
+        Filtre : Big 5 championnats, 2006–2025
+        → 52 580 matchs
                        │
-        TimeSeriesSplit (5 folds, chronological)
+        TimeSeriesSplit (5 folds, chronologique)
                        │
         ┌──────────────▼──────────────┐
-        │   3-Class Classification    │
-        │   H (Home) / D / A (Away)   │
-        │  V1 (with odds) vs V2 (blind)│
+        │   Classification 3 classes  │
+        │   H (Domicile) / D / A (Ext.)│
+        │  V1 (avec cotes) vs V2 (aveugle)│
         └──────────────────────────────┘
 ```
 
 ---
 
-## Dataset
+## Jeu de données
 
-| Source | File | Size | Content |
+| Source | Fichier | Taille | Contenu |
 |--------|------|------|---------|
-| [Football-Data.co.uk](https://www.football-data.co.uk) | `Matches.csv` | 228,377 rows | Match results & statistics, multiple European leagues |
-| [ClubElo.com](http://clubelo.com) | `EloRatings.csv` | 242,591 snapshots | Bi-monthly Elo ratings per club |
+| [Football-Data.co.uk](https://www.football-data.co.uk) | `Matches.csv` | 228 377 lignes | Résultats & statistiques de matchs, plusieurs championnats européens |
+| [ClubElo.com](http://clubelo.com) | `EloRatings.csv` | 242 591 snapshots | Classement Elo bimensuel par club |
 
-**Modeling dataset** (after Big-5 filter, post-2006, quality filtering): **52,580 matches** — Premier League · Ligue 1 · Bundesliga · Serie A · La Liga.
+**Jeu de données de modélisation** (après filtre Big-5, post-2006, filtrage qualité) : **52 580 matchs** — Premier League · Ligue 1 · Bundesliga · Serie A · La Liga.
 
-Data files are not versioned (too large for git). See [Installation](#installation) for setup.
+Les fichiers de données ne sont pas versionnés (trop volumineux pour git). Voir [Installation](#installation) pour la mise en place.
 
 ---
 
-## Tech Stack
+## Stack technique
 
-| Category | Tools |
+| Catégorie | Outils |
 |----------|-------|
-| **Core ML** | scikit-learn, XGBoost, SHAP |
-| **Data** | pandas, numpy, scipy, rapidfuzz |
+| **ML Core** | scikit-learn, XGBoost, SHAP |
+| **Données** | pandas, numpy, scipy, rapidfuzz |
 | **Packaging** | pyproject.toml (PEP 517), src layout, setuptools |
-| **Quality** | pytest (49 tests), ruff, mypy, GitHub Actions CI |
+| **Qualité** | pytest (49 tests), ruff, mypy, CI GitHub Actions |
 | **Profiling** | ydata-profiling |
-| **Serialization** | joblib |
+| **Sérialisation** | joblib |
 
 ---
 
-## Repository Structure
+## Structure du repository
 
 ```
 .
-├── src/football_prediction/    # Core Python package (see Architecture)
-├── tests/                      # 49 unit tests
-│   ├── test_data/               # Ingestion, cleaning, merging
-│   ├── test_features/           # Elo features, odds features
-│   └── test_models/             # Model roundtrip + evaluation metrics
-├── Programmes/                  # Jupyter notebooks (data prep, EDA, modeling)
-│   ├── P5A_Prepa_donnees_V2.ipynb      # ETL pipeline, fuzzy-match reconciliation, Elo merge
-│   ├── P5A_EDA_V2.ipynb                # Univariate EDA
-│   ├── P5A_EDA_comparative.ipynb       # Dataset version comparison
-│   ├── P5A_EDA_YDataprofiling.ipynb    # Automated HTML profiling
+├── src/football_prediction/    # Package Python principal (voir Architecture)
+├── tests/                      # 49 tests unitaires
+│   ├── test_data/               # Ingestion, nettoyage, fusion
+│   ├── test_features/           # Variables Elo, variables cotes
+│   └── test_models/             # Aller-retour modèle + métriques d'évaluation
+├── Programmes/                  # Notebooks Jupyter (préparation données, EDA, modélisation)
+│   ├── P5A_Prepa_donnees_V2.ipynb      # Pipeline ETL, réconciliation fuzzy-match, fusion Elo
+│   ├── P5A_EDA_V2.ipynb                # EDA univariée
+│   ├── P5A_EDA_comparative.ipynb       # Comparaison des versions du jeu de données
+│   ├── P5A_EDA_YDataprofiling.ipynb    # Profiling HTML automatisé
 │   ├── Modélisation_RF_V2.ipynb        # Random Forest — V1/V2 + SHAP
-│   ├── Modélisation_RL_V2.ipynb        # Logistic Regression — V1/V2 + SHAP
-│   └── Modélisation_XGB.ipynb          # XGBoost — V1/V2, calibration, ROI simulation
-├── Donnees/                     # Reference tables (club mappings, division codes)
-├── reports/                     # Academic project report (PDF)
-├── .github/workflows/ci.yml    # CI: pytest + ruff + mypy on Python 3.11 & 3.12
-├── pyproject.toml               # Project metadata + dependencies
-└── requirements.txt              # Runtime dependencies
+│   ├── Modélisation_RL_V2.ipynb        # Régression Logistique — V1/V2 + SHAP
+│   └── Modélisation_XGB.ipynb          # XGBoost — V1/V2, calibration, simulation ROI
+├── Donnees/                     # Tables de référence (correspondances clubs, codes division)
+├── reports/                     # Rapport de projet académique (PDF) + figures/ (visualisations du README)
+├── .github/workflows/ci.yml    # CI : pytest + ruff + mypy sur Python 3.11 & 3.12
+├── pyproject.toml               # Métadonnées du projet + dépendances
+└── requirements.txt              # Dépendances d'exécution
 ```
 
 ---
@@ -191,8 +228,8 @@ Data files are not versioned (too large for git). See [Installation](#installati
 ## Installation
 
 ```bash
-git clone https://github.com/AlbanHtn/Projet_5A_Prediction_matchs.git
-cd Projet_5A_Prediction_matchs
+git clone https://github.com/AlbanHtn/football-match-prediction.git
+cd football-match-prediction
 
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
@@ -200,23 +237,23 @@ source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 ```
 
-**Data setup** — place raw files in `Donnees/`:
-- `Matches.csv` from [football-data.co.uk/data.php](https://www.football-data.co.uk/data.php)
-- `EloRatings.csv` from [clubelo.com/ELO](http://clubelo.com/ELO)
+**Mise en place des données** — placer les fichiers bruts dans `Donnees/` :
+- `Matches.csv` depuis [football-data.co.uk/data.php](https://www.football-data.co.uk/data.php)
+- `EloRatings.csv` depuis [clubelo.com/ELO](http://clubelo.com/ELO)
 
-Then run the data preparation notebook: `Programmes/P5A_Prepa_donnees_V2.ipynb`
+Puis exécuter le notebook de préparation des données : `Programmes/P5A_Prepa_donnees_V2.ipynb`
 
 ---
 
-## Usage
+## Utilisation
 
-### CLI Pipeline
+### Pipeline CLI
 
 ```bash
 python -m football_prediction.pipeline --model xgb --min-year 2006
 ```
 
-### Python API
+### API Python
 
 ```python
 from pathlib import Path
@@ -239,31 +276,31 @@ predictions = model.predict(df)  # "H" / "D" / "A"
 model.save(Path("models/xgb_blind_v1.joblib"))
 ```
 
-### Running Tests
+### Lancer les tests
 
 ```bash
-pytest                      # All 49 tests
-pytest tests/test_data/     # Data pipeline tests only
+pytest                      # Les 49 tests
+pytest tests/test_data/     # Tests du pipeline de données uniquement
 ```
 
 ---
 
-## Skills Demonstrated
+## Compétences démontrées
 
-| Domain | Skills |
+| Domaine | Compétences |
 |--------|--------|
-| **Machine Learning** | Multi-class classification, temporal CV (`TimeSeriesSplit`), ensemble methods (XGBoost, RF), probability calibration (ECE), SHAP explainability |
-| **Quantitative Finance / Betting Analytics** | Implied-probability extraction, bookmaker margin analysis, value-betting simulation, market efficiency testing |
-| **Data Engineering** | ETL pipeline design, temporal asof-joins, fuzzy string matching (`rapidfuzz`), multi-version dataset management |
-| **Software Engineering** | Python packaging (src layout, PEP 517), abstract base classes, type annotations, CLI design, model serialization |
-| **MLOps** | CI/CD (GitHub Actions), 49 unit tests across 3 layers, linting (ruff), static type checking (mypy) |
-| **Statistical Rigor** | Anti-leakage design (3 independent mechanisms), appropriate baseline selection, honest reporting of a negative-edge result |
+| **Machine Learning** | Classification multi-classes, validation croisée temporelle (`TimeSeriesSplit`), méthodes d'ensemble (XGBoost, RF), calibration de probabilités (ECE), explicabilité SHAP |
+| **Finance quantitative / Analytics paris sportifs** | Extraction de probabilités implicites, analyse de marge bookmaker, simulation de value-betting, test d'efficience de marché |
+| **Data Engineering** | Conception de pipeline ETL, jointures temporelles asof, fuzzy string matching (`rapidfuzz`), gestion multi-versions du jeu de données |
+| **Génie logiciel** | Packaging Python (src layout, PEP 517), classes de base abstraites, annotations de type, conception CLI, sérialisation de modèle |
+| **MLOps** | CI/CD (GitHub Actions), 49 tests unitaires sur 3 couches, linting (ruff), vérification statique de types (mypy) |
+| **Rigueur statistique** | Conception anti-fuite (3 mécanismes indépendants), choix de baseline pertinent, reporting honnête d'un résultat à edge négatif |
 
 ---
 
-## Author
+## Auteur
 
-**Alban Haton** — Data/ML Engineer specializing in Sports Analytics
+**Alban Haton** — Data/ML Engineer spécialisé en Sports Analytics
 [GitHub](https://github.com/AlbanHtn) · [LinkedIn](https://www.linkedin.com/in/alban-haton) · alban.haton@gmail.com
 
-*Developed during an Assistant Football Data Project Manager role at LFP Media (Ligue de Football Professionnel), building on an earlier engineering-school project.*
+*Développé pendant une mission d'Assistant Chef de Projet Football Data à la LFP Media (Ligue de Football Professionnel), en prolongement d'un projet d'école d'ingénieur.*
