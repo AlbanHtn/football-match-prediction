@@ -6,7 +6,6 @@ from xgboost import XGBClassifier
 
 from .base import BaseMatchPredictor
 
-
 # XGBoost requires integer class labels — map FTResult strings to ints
 _LABEL_MAP = {"H": 0, "D": 1, "A": 2}
 _LABEL_INV = {v: k for k, v in _LABEL_MAP.items()}

@@ -20,6 +20,7 @@ from .evaluation.metrics import compute_classification_metrics, compute_roi
 from .features.elo_features import add_elo_features
 from .features.form_features import add_form_momentum, add_form_rolling_stats
 from .features.odds_features import add_implied_probabilities
+from .models.base import BaseMatchPredictor
 from .models.logistic_regression import LogisticRegressionPredictor
 from .models.random_forest import RandomForestPredictor
 from .models.xgboost_model import XGBoostPredictor
@@ -34,13 +35,24 @@ _MODELS = {
 }
 
 _FEATURE_COLS = [
-    "EloDiff", "EloTotal", "HomeEloAdvantage",
-    "HomeForm3", "AwayForm3", "HomeForm5", "AwayForm5",
-    "HomeMomentum", "AwayMomentum",
-    "HomeImpliedProb", "DrawImpliedProb", "AwayImpliedProb",
+    "EloDiff", "EloTotal", "EloAdvantage",
+    "Form3Home", "Form3Away", "Form5Home", "Form5Away",
+    "FormMomentumHome", "FormMomentumAway",
+    "ImpliedProbHome", "ImpliedProbDraw", "ImpliedProbAway",
 ]
 
-_ODDS_COLS = ["B365H", "B365D", "B365A"]
+_ODDS_COLS = ["OddHome", "OddDraw", "OddAway"]
+_ROLLING_STAT_COLS = ["HomeShots", "HomeCorners", "HomeYellow"]
+
+
+def _build_model(name: str, feature_columns: list[str]) -> BaseMatchPredictor:
+    if name == "rf":
+        return RandomForestPredictor(feature_columns=feature_columns)
+    if name == "lr":
+        return LogisticRegressionPredictor(feature_columns=feature_columns)
+    if name == "xgb":
+        return XGBoostPredictor(feature_columns=feature_columns)
+    raise ValueError(f"Unknown model: {name}")
 
 
 def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -54,11 +66,13 @@ def _parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def build_features(df: pd.DataFrame, odds_cols: list[str] = _ODDS_COLS) -> pd.DataFrame:
     df = add_elo_features(df)
-    df = add_form_rolling_stats(df)
+    df = add_form_rolling_stats(df, stat_columns=_ROLLING_STAT_COLS)
     df = add_form_momentum(df)
     available_odds = [c for c in odds_cols if c in df.columns]
     if len(available_odds) == 3:
-        df = add_implied_probabilities(df, home_col=odds_cols[0], draw_col=odds_cols[1], away_col=odds_cols[2])
+        df = add_implied_probabilities(
+            df, odd_home=odds_cols[0], odd_draw=odds_cols[1], odd_away=odds_cols[2]
+        )
     return df
 
 
@@ -91,8 +105,7 @@ def run(argv: list[str] | None = None) -> None:
     split = int(len(df) * 0.8)
     train, test = df.iloc[:split], df.iloc[split:]
 
-    ModelClass = _MODELS[args.model]
-    model = ModelClass(feature_columns=feature_cols)
+    model = _build_model(args.model, feature_cols)
     model.fit(train)
 
     preds = model.predict(test)
@@ -104,7 +117,7 @@ def run(argv: list[str] | None = None) -> None:
 
     odds_available = all(c in test.columns for c in _ODDS_COLS)
     if odds_available:
-        roi = compute_roi(test["FTResult"].values, preds, test[_ODDS_COLS].values)
+        roi = compute_roi(test["FTResult"].values, preds, test[_ODDS_COLS])
         logger.info("  %-20s %.4f", "ROI", roi)
 
 

@@ -67,10 +67,11 @@ def add_elo_change_features(
         elo_lag = elo_sorted.rename(columns={"Date": lagged_date_col, "Elo": f"_elo_lag_{lag}"})
 
         for team_col, suffix in [(home_col, "Home"), (away_col, "Away")]:
-            snap_col = f"HomeEloSnap" if suffix == "Home" else "AwayEloSnap"
+            snap_col = "HomeEloSnap" if suffix == "Home" else "AwayEloSnap"
             current_col = f"EloChange{lag}{suffix}"
 
-            lagged = elo_lag.rename(columns={"Club": team_col})[[team_col, lagged_date_col, f"_elo_lag_{lag}"]]
+            lagged = elo_lag.rename(columns={"Club": team_col})
+            lagged = lagged[[team_col, lagged_date_col, f"_elo_lag_{lag}"]]
             merged = pd.merge_asof(
                 df[[team_col, lagged_date_col]].sort_values(lagged_date_col),
                 lagged.sort_values(lagged_date_col),
