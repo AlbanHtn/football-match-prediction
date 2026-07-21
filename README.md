@@ -298,9 +298,9 @@ pytest tests/test_data/     # Tests du pipeline de données uniquement
 
 ---
 
-## Auteur
+## Auteurs
 
 **Alban Haton** — Data/ML Engineer spécialisé en Sports Analytics
 [GitHub](https://github.com/AlbanHtn) · [LinkedIn](https://www.linkedin.com/in/alban-haton) · alban.haton@gmail.com
 
-*Développé pendant une mission d'Assistant Chef de Projet Football Data à la LFP Media (Ligue de Football Professionnel), en prolongement d'un projet d'école d'ingénieur.*
+Projet réalisé en binôme avec **Simon Guillet** dans le cadre de la 5ᵉ année du cursus ingénieur à Polytech Clermont (spécialité IA & Big Data). La refonte MLOps du dépôt (packaging, CI, tests, protocole d'évaluation anti-fuite) a ensuite été menée par Alban Haton.
